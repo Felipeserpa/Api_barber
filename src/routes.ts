@@ -7,8 +7,9 @@ const router = Router();
 //return res.json({ ok: "true" });
 //});
 
-// --Rotas USer --
+// --Rotas User --
 
-router.post("/user", new CreateUserController().handle);
-
+router.post("/users", (req: Request, res: Response) => {
+  return new CreateUserController().handle(req, res);
+});
 export { router };
