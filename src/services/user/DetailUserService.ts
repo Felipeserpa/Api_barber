@@ -1,20 +1,28 @@
 import prismaClient from "../../prisma";
 
 class UserDetailService {
-  static execute() {
-    throw new Error("Method not implemented.");
-  }
-  async execute() {
-    const users = await prismaClient.user.findMany({
+  async execute(user_id: string) {
+    const user = await prismaClient.user.findFirst({
+      where: {
+        id: user_id,
+      },
       select: {
         id: true,
         name: true,
         email: true,
-        role: true,
-        created_at: true,
+        endereco: true,
+        subscripitons: {
+          select: {
+            id: true,
+            prieceId: true,
+            status: true,
+          },
+        },
       },
     });
-    return users;
+
+    return user;
   }
 }
+
 export { UserDetailService };

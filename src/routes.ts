@@ -8,17 +8,9 @@ import { isAuthenticated } from "./middlewares/isAuthenticated";
 
 const router = Router();
 
-// --Rotas User --
-//rota de cadastro
-router.post("/users", (req: Request, res: Response) => {
-  return new CreateUserController().handle(req, res);
-});
-//rota de login
-router.post("/session", (req: Request, res: Response) => {
-  return new AuthUserController().handle(req, res);
-});
-//rota de detalhe de que ta logado
-router.get("/me", isAuthenticated, (req: Request, res: Response) => {
-  return new DetailUserController().handle(req, res);
-});
+// --- ROTAS USER ---
+router.post("/users", new CreateUserController().handle);
+router.post("/session", new AuthUserController().handle);
+router.get("/me", isAuthenticated, new DetailUserController().handle);
+
 export { router };
