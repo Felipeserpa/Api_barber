@@ -1,19 +1,23 @@
 import prismaClient from "../../prisma";
 
-interface HaircutRequest {
+interface HaircutRequest{
   user_id: string;
   status: boolean | string;
 }
 
-export class ListHaircutService {
-  async execute({ user_id, status }: HaircutRequest) {
-    const haircuts = await prismaClient.haircut.findMany({
-      where: {
-        user_id: user_id,
-        status: status === "true" ? true : false,
-      },
-    });
+class ListHaircutService{
+  async execute({ user_id, status }: HaircutRequest){
 
-    return haircuts;
+    const haircut = await prismaClient.haircut.findMany({
+      where:{
+        user_id: user_id,
+        status: status === 'true' ? true : false
+      }
+    })
+
+    return haircut;
+
   }
 }
+
+export { ListHaircutService }

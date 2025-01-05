@@ -6,15 +6,12 @@ interface HaircutRequest {
   price: number;
 }
 
-//verificar se ele e premium se nao limitamos a quantidade de modelos para cadastrar
-
-export class CreateHaircutService {
-  async execute({ name, price, user_id }: HaircutRequest) {
+class CreateHaircutService {
+  async execute({ user_id, name, price }: HaircutRequest) {
     if (!name || !price) {
-      throw new Error("Missing required fields");
+      throw new Error("Error");
     }
 
-    //erificar quantos modelos esse usuario ja tem cadastro
     const myHaircuts = await prismaClient.haircut.count({
       where: {
         user_id: user_id,
@@ -30,20 +27,20 @@ export class CreateHaircutService {
       },
     });
 
-    //cria a  validadcao ou limites
     if (myHaircuts >= 3 && user?.subscripitons?.status !== "active") {
-      throw new Error("Not authorized ");
+      throw new Error("Not authorized");
     }
 
     const haircut = await prismaClient.haircut.create({
       data: {
-        name,
-        price,
-
-        user_id,
+        name: name,
+        price: price,
+        user_id: user_id,
       },
     });
 
     return haircut;
   }
 }
+
+export { CreateHaircutService };
