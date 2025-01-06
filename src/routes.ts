@@ -10,6 +10,8 @@ import { CreateHaircutController } from "./controllers/haircut/CreateHaircutCont
 import { ListHaircutController } from "./controllers/haircut/ListHaircutController";
 import { UpdateHaircutController } from "./controllers/haircut/updateHaircutController";
 import { CheckSubscriptionController } from "./controllers/haircut/CkeckSubscriptionControlle";
+import { CountHaircutsController } from "./controllers/haircut/CountHaircutsController";
+import { DetailHaircutController } from "./controllers/haircut/DetailHaircutController";
 
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 
@@ -25,10 +27,23 @@ router.put("/users", isAuthenticated, new UpdateUserController().handle);
 router.post("/haircut", isAuthenticated, new CreateHaircutController().handle);
 router.get("/haircuts", isAuthenticated, new ListHaircutController().handle);
 router.put("/haircut", isAuthenticated, new UpdateHaircutController().handle);
+//    rotas para saber se o usuario tem uma assinatura
 router.get(
   "/haircuts/check",
   isAuthenticated,
   new CheckSubscriptionController().handle
+);
+//rotas para contagem de cortes e preco total de cortes em aberto e fechados
+router.get(
+  "/haircuts/count",
+  isAuthenticated,
+  new CountHaircutsController().handle
+);
+//rota para
+router.get(
+  "/haircut/detail",
+  isAuthenticated,
+  new DetailHaircutController().handle
 );
 
 export { router };
