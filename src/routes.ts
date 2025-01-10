@@ -13,6 +13,9 @@ import { CheckSubscriptionController } from "./controllers/haircut/CkeckSubscrip
 import { CountHaircutsController } from "./controllers/haircut/CountHaircutsController";
 import { DetailHaircutController } from "./controllers/haircut/DetailHaircutController";
 
+//Rotas de agendamentos do cliente
+import { NewScheduleController } from "./controllers/schedule/NewScheduleController";
+
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 
 const router = Router();
@@ -39,11 +42,14 @@ router.get(
   isAuthenticated,
   new CountHaircutsController().handle
 );
-//rota para
+//rota para detalhar um corte
 router.get(
   "/haircut/detail",
   isAuthenticated,
   new DetailHaircutController().handle
 );
+
+//---ROTAS DOS AGENDAMENTOS
+router.post("/schedule", isAuthenticated, new NewScheduleController().handle);
 
 export { router };

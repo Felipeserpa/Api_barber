@@ -1,3 +1,5 @@
+//Criaçao de modelos de corte.
+
 import prismaClient from "../../prisma";
 
 interface HaircutRequest {

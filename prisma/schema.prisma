@@ -61,12 +61,12 @@ model Haircut{
 
 model Service{
 id String @id @default(uuid())
-  name String
-  price Float
-  status Boolean @default(true)
+  customer String
+ 
   
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
+
   @@map("services")
 haircut Haircut @relation (fields:[haircut_id],references: [id])
 haircut_id String
