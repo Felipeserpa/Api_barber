@@ -1,91 +1,56 @@
 import { Router } from "express";
 
-// CONTROLLERS USUÁRIO
+// Controllers Usuário
 import { CreateUserController } from "./controllers/user/CreateUserController";
 import { AuthUserController } from "./controllers/user/AuthUserController";
 import { DetailUserController } from "./controllers/user/DetailUserController";
 import { UpdateUserController } from "./controllers/user/UpdateUserController";
 
-// CONTROLLERS HAIRCUT
+// Controllers Haircut
 import { CreateHaircutController } from "./controllers/haircut/CreateHaircutController";
 import { ListHaircutController } from "./controllers/haircut/ListHaircutController";
-import { UpdateHaircutController } from "./controllers/haircut/updateHaircutController";
-// import { CheckSubscriptionController } from "./controllers/haircut/CheckSubscriptionController";
+import { UpdateHaircutController } from "./controllers/haircut/UpdateHaircutController";
 import { CountHaircutsController } from "./controllers/haircut/CountHaircutsController";
 import { DetailHaircutController } from "./controllers/haircut/DetailHaircutController";
 
-// CONTROLLERS AGENDAMENTOS
+// Controllers Schedule
 import { NewScheduleController } from "./controllers/schedule/NewScheduleController";
 import { ListScheduleController } from "./controllers/schedule/ListScheduleController";
 import { FinishScheduleController } from "./controllers/schedule/FinishScheduleController";
 
-// MIDDLEWARE
+// Middleware
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 
 const router = Router();
 
-// --- ROTAS USER ---
-const createUserController = new CreateUserController();
-router.post("/users", createUserController.handle.bind(createUserController));
+// --- USERS ---
+router.post("/users", new CreateUserController().handle);
+router.post("/session", new AuthUserController().handle);
+router.get("/me", isAuthenticated, new DetailUserController().handle);
+router.put("/users", isAuthenticated, new UpdateUserController().handle);
 
-const authUserController = new AuthUserController();
-router.post("/session", authUserController.handle.bind(authUserController));
+// --- HAIRCUTS ---
+router.post("/haircut", isAuthenticated, new CreateHaircutController().handle);
+router.get("/haircuts", isAuthenticated, new ListHaircutController().handle);
+router.put("/haircut", isAuthenticated, new UpdateHaircutController().handle);
+router.get(
+  "/haircuts/count",
+  isAuthenticated,
+  new CountHaircutsController().handle
+);
+router.get(
+  "/haircut/detail",
+  isAuthenticated,
+  new DetailHaircutController().handle
+);
 
-const detailUserController = new DetailUserController();
-router.get("/me", isAuthenticated, async (req, res, next) => {
-  try {
-    await detailUserController.handle(req, res);
-  } catch (error) {
-    next(error);
-  }
-});
-
-const updateUserController = new UpdateUserController();
-router.put("/users", isAuthenticated, updateUserController.handle);
-
-// --- ROTAS HAIRCUT ---
-const createHaircutController = new CreateHaircutController();
-router.post("/haircut", isAuthenticated, createHaircutController.handle);
-
-const listHaircutController = new ListHaircutController();
-router.get("/haircuts", isAuthenticated, listHaircutController.handle);
-
-const updateHaircutController = new UpdateHaircutController();
-router.put("/haircut", isAuthenticated, async (req, res, next) => {
-  try {
-    await updateHaircutController.handle(req, res, next);
-  } catch (error) {
-    next(error);
-  }
-});
-
-// const checkSubscriptionController = new CheckSubscriptionController();
-// router.get(
-//   "/haircuts/check",
-//   isAuthenticated,
-//   checkSubscriptionController.handle
-// );
-
-const countHaircutsController = new CountHaircutsController();
-router.get("/haircuts/count", isAuthenticated, countHaircutsController.handle);
-
-const detailHaircutController = new DetailHaircutController();
-router.get("/haircut/detail", isAuthenticated, detailHaircutController.handle);
-
-// --- ROTAS AGENDAMENTOS ---
-const newScheduleController = new NewScheduleController();
-router.post("/schedule", isAuthenticated, async (req, res, next) => {
-  try {
-    await newScheduleController.handle(req, res, next);
-  } catch (error) {
-    next(error);
-  }
-});
-
-const listScheduleController = new ListScheduleController();
-router.get("/schedule", isAuthenticated, listScheduleController.handle);
-
-const finishScheduleController = new FinishScheduleController();
-router.delete("/schedule", isAuthenticated, finishScheduleController.handle);
+// --- SCHEDULES ---
+router.post("/schedule", isAuthenticated, new NewScheduleController().handle);
+router.get("/schedule", isAuthenticated, new ListScheduleController().handle);
+router.delete(
+  "/schedule",
+  isAuthenticated,
+  new FinishScheduleController().handle
+);
 
 export { router };
