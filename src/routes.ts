@@ -1,19 +1,19 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
 
 import { CreateUserController } from "./controllers/user/CreateUserController";
 import { AuthUserController } from "./controllers/user/AuthUserController";
 import { DetailUserController } from "./controllers/user/DetailUserController";
 import { UpdateUserController } from "./controllers/user/UpdateUserController";
 
-//rotas dos cortes e preco
+// Cortes e preços
 import { CreateHaircutController } from "./controllers/haircut/CreateHaircutController";
 import { ListHaircutController } from "./controllers/haircut/ListHaircutController";
-import { UpdateHaircutController } from "./controllers/haircut/updateHaircutController";
+import { UpdateHaircutController } from "./controllers/haircut/UpdateHaircutController";
 import { CheckSubscriptionController } from "./controllers/haircut/CkeckSubscriptionControlle";
 import { CountHaircutsController } from "./controllers/haircut/CountHaircutsController";
 import { DetailHaircutController } from "./controllers/haircut/DetailHaircutController";
 
-//Rotas de agendamentos para o cliente
+// Agendamentos
 import { NewScheduleController } from "./controllers/schedule/NewScheduleController";
 import { ListScheduleController } from "./controllers/schedule/ListScheduleController";
 import { FinishScheduleController } from "./controllers/schedule/FinishScheduleController";
@@ -23,43 +23,49 @@ import { isAuthenticated } from "./middlewares/isAuthenticated";
 const router = Router();
 
 // --- ROTAS USER ---
-router.post("/users", new CreateUserController().handle); //rota para criar um usuario
-router.post("/session", new AuthUserController().handle); // rota para autenticar o usuario
-//rota para autenticar o usuario e retornar os dados do usuario logado
-router.get("/me", isAuthenticated, new DetailUserController().handle);
-router.put("/users", isAuthenticated, new UpdateUserController().handle); // rota para atualizar os dados do usuario logado
+const createUserController = new CreateUserController();
+router.post("/users", createUserController.handle); // handle deve ser arrow function no controller
 
-//---ROTAS DOS CORTES
-router.post("/haircut", isAuthenticated, new CreateHaircutController().handle);
-router.get("/haircuts", isAuthenticated, new ListHaircutController().handle);
-router.put("/haircut", isAuthenticated, new UpdateHaircutController().handle);
-//    rotas para saber se o usuario tem uma assinatura
+const authUserController = new AuthUserController();
+router.post("/session", authUserController.handle);
+
+const detailUserController = new DetailUserController();
+router.get("/me", isAuthenticated, detailUserController.handle);
+
+const updateUserController = new UpdateUserController();
+router.put("/users", isAuthenticated, updateUserController.handle);
+
+// --- ROTAS DOS CORTES ---
+const createHaircutController = new CreateHaircutController();
+router.post("/haircut", isAuthenticated, createHaircutController.handle);
+
+const listHaircutController = new ListHaircutController();
+router.get("/haircuts", isAuthenticated, listHaircutController.handle);
+
+const updateHaircutController = new UpdateHaircutController();
+router.put("/haircut", isAuthenticated, updateHaircutController.handle);
+
+const checkSubscriptionController = new CheckSubscriptionController();
 router.get(
   "/haircuts/check",
   isAuthenticated,
-  new CheckSubscriptionController().handle
-);
-//rotas para contagem de cortes e preco total de cortes em aberto e fechados
-router.get(
-  "/haircuts/count",
-  isAuthenticated,
-  new CountHaircutsController().handle
-);
-//rota para detalhar um corte
-router.get(
-  "/haircut/detail",
-  isAuthenticated,
-  new DetailHaircutController().handle
+  checkSubscriptionController.handle
 );
 
-//---ROTAS DOS AGENDAMENTOS
-router.post("/schedule", isAuthenticated, new NewScheduleController().handle);
+const countHaircutsController = new CountHaircutsController();
+router.get("/haircuts/count", isAuthenticated, countHaircutsController.handle);
 
-router.get("/schedule", isAuthenticated, new ListScheduleController().handle);
-router.delete(
-  "/schedule",
-  isAuthenticated,
-  new FinishScheduleController().handle
-);
+const detailHaircutController = new DetailHaircutController();
+router.get("/haircut/detail", isAuthenticated, detailHaircutController.handle);
+
+// --- ROTAS DOS AGENDAMENTOS ---
+const newScheduleController = new NewScheduleController();
+router.post("/schedule", isAuthenticated, newScheduleController.handle);
+
+const listScheduleController = new ListScheduleController();
+router.get("/schedule", isAuthenticated, listScheduleController.handle);
+
+const finishScheduleController = new FinishScheduleController();
+router.delete("/schedule", isAuthenticated, finishScheduleController.handle);
 
 export { router };
