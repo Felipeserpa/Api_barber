@@ -10,7 +10,7 @@ interface HaircutRequest {
 
 class CreateHaircutService {
   async execute({ user_id, name, price }: HaircutRequest) {
-    if (!name || !price) {
+    if (!user_id || !name || !price) {
       throw new Error("Error");
     }
 

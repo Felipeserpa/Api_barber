@@ -13,7 +13,7 @@ import { CheckSubscriptionController } from "./controllers/haircut/CkeckSubscrip
 import { CountHaircutsController } from "./controllers/haircut/CountHaircutsController";
 import { DetailHaircutController } from "./controllers/haircut/DetailHaircutController";
 
-//Rotas de agendamentos do cliente
+//Rotas de agendamentos para o cliente
 import { NewScheduleController } from "./controllers/schedule/NewScheduleController";
 import { ListScheduleController } from "./controllers/schedule/ListScheduleController";
 import { FinishScheduleController } from "./controllers/schedule/FinishScheduleController";
@@ -23,10 +23,11 @@ import { isAuthenticated } from "./middlewares/isAuthenticated";
 const router = Router();
 
 // --- ROTAS USER ---
-router.post("/users", new CreateUserController().handle);
-router.post("/session", new AuthUserController().handle);
+router.post("/users", new CreateUserController().handle); //rota para criar um usuario
+router.post("/session", new AuthUserController().handle); // rota para autenticar o usuario
+//rota para autenticar o usuario e retornar os dados do usuario logado
 router.get("/me", isAuthenticated, new DetailUserController().handle);
-router.put("/users", isAuthenticated, new UpdateUserController().handle);
+router.put("/users", isAuthenticated, new UpdateUserController().handle); // rota para atualizar os dados do usuario logado
 
 //---ROTAS DOS CORTES
 router.post("/haircut", isAuthenticated, new CreateHaircutController().handle);

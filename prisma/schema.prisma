@@ -13,7 +13,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-//criando model de usuario
+//criando modulo de customer
+model Customer {
+  id String @id @default(uuid())
+  name String
+  email String
+  passwordHash String
+  phone String?
+  address String?
+  
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+  
+  @@map("customers")
+  user User @relation(fields: [user_id], references: [id])
+  user_id String
+}
+// tem que cria a parte logica no back do cliente
+
+//criando model de usuario/barbearia.
 
 model User{
   id String @id  @default(uuid())
@@ -29,6 +47,7 @@ model User{
   subscripitons Subscription? 
   haircuts Haircut[] //1 user pode ter varios modelos de corte
   service Service[]
+  Customer Customer[]
 }
 
 model Subscription{

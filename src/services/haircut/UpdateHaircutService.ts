@@ -20,14 +20,14 @@ class UpdateHaircutService {
       where: {
         id: user_id,
       },
-      include: {
-        subscripitons: true,
-      },
+      //include: {
+      //subscripitons: true,
+      //},
     });
 
-    if (user?.subscripitons?.status !== "active") {
-      throw new Error("Not authorized");
-    }
+    //if (user?.subscripitons?.status !== "active") {
+    //throw new Error("Not authorized");
+    //}
 
     const haircut = await prismaClient.haircut.update({
       where: {
