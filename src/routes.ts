@@ -9,7 +9,7 @@ import { UpdateUserController } from "./controllers/user/UpdateUserController";
 // Controllers Haircut
 import { CreateHaircutController } from "./controllers/haircut/CreateHaircutController";
 import { ListHaircutController } from "./controllers/haircut/ListHaircutController";
-import { UpdateHaircutController } from "./controllers/haircut/UpdateHaircutController";
+import { UpdateHaircutController } from "./controllers/haircut/UpdateHaircutController"; // 👈 corrigido para minúsculo
 import { CountHaircutsController } from "./controllers/haircut/CountHaircutsController";
 import { DetailHaircutController } from "./controllers/haircut/DetailHaircutController";
 
@@ -23,41 +23,65 @@ import { isAuthenticated } from "./middlewares/isAuthenticated";
 
 const router = Router();
 
-// 🔧 Função para ignorar o tipo de retorno do controller
-const wrap =
-  (controller: any) =>
-  (req: Request, res: Response, next: NextFunction): void => {
-    Promise.resolve(controller.handle(req, res, next)).catch(next);
+// Função que adapta controllers para Express
+const asyncHandler =
+  (controller: any): RequestHandler =>
+  async (req, res, next) => {
+    try {
+      await Promise.resolve(controller.handle(req, res, next));
+    } catch (err) {
+      next(err);
+    }
   };
 
 // --- USERS ---
-router.post("/users", wrap(new CreateUserController()));
-router.post("/session", wrap(new AuthUserController()));
-router.get("/me", isAuthenticated, wrap(new DetailUserController()));
-router.put("/users", isAuthenticated, wrap(new UpdateUserController()));
+router.post("/users", asyncHandler(new CreateUserController()));
+router.post("/session", asyncHandler(new AuthUserController()));
+router.get("/me", isAuthenticated, asyncHandler(new DetailUserController()));
+router.put("/users", isAuthenticated, asyncHandler(new UpdateUserController()));
 
 // --- HAIRCUTS ---
-router.post("/haircut", isAuthenticated, wrap(new CreateHaircutController()));
-router.get("/haircuts", isAuthenticated, wrap(new ListHaircutController()));
-router.put("/haircut", isAuthenticated, wrap(new UpdateHaircutController()));
+router.post(
+  "/haircut",
+  isAuthenticated,
+  asyncHandler(new CreateHaircutController())
+);
+router.get(
+  "/haircuts",
+  isAuthenticated,
+  asyncHandler(new ListHaircutController())
+);
+router.put(
+  "/haircut",
+  isAuthenticated,
+  asyncHandler(new UpdateHaircutController())
+);
 router.get(
   "/haircuts/count",
   isAuthenticated,
-  wrap(new CountHaircutsController())
+  asyncHandler(new CountHaircutsController())
 );
 router.get(
   "/haircut/detail",
   isAuthenticated,
-  wrap(new DetailHaircutController())
+  asyncHandler(new DetailHaircutController())
 );
 
 // --- SCHEDULES ---
-router.post("/schedule", isAuthenticated, wrap(new NewScheduleController()));
-router.get("/schedule", isAuthenticated, wrap(new ListScheduleController()));
+router.post(
+  "/schedule",
+  isAuthenticated,
+  asyncHandler(new NewScheduleController())
+);
+router.get(
+  "/schedule",
+  isAuthenticated,
+  asyncHandler(new ListScheduleController())
+);
 router.delete(
   "/schedule",
   isAuthenticated,
-  wrap(new FinishScheduleController())
+  asyncHandler(new FinishScheduleController())
 );
 
 export { router };
