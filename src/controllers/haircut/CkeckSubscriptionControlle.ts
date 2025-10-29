@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CheckSubscriptionService } from "../../services/haircut/CheckSubscriptionService";
+import { CheckSubscriptionService } from "../../services/Haircut/CheckSubscriptionService";
 
 export class CheckSubscriptionController {
   async handle(request: Request, response: Response) {

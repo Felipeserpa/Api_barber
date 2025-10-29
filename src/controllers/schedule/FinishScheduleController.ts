@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { FinishScheduleService } from "../../services/schedule/FinishScheduleService";
+import { FinishScheduleService } from "../../services/Schedule/FinishScheduleService";
 
 class FinishScheduleController {
   async handle(request: Request, response: Response) {

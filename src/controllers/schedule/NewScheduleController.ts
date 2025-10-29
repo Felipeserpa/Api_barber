@@ -1,9 +1,8 @@
-import {Request, Response } from 'express'
-import { NewScheduleService } from '../../services/schedule/NewScheduleService'
+import { Request, Response } from "express";
+import { NewScheduleService } from "../../services/Schedule/NewScheduleService";
 
-
-class NewScheduleController{
-  async handle(request: Request, response: Response){
+class NewScheduleController {
+  async handle(request: Request, response: Response) {
     const { haircut_id, customer } = request.body;
     const user_id = request.user_id;
 
@@ -13,12 +12,10 @@ class NewScheduleController{
       user_id,
       haircut_id,
       customer,
-    })
+    });
 
     return response.json(schedule);
-
-
   }
 }
 
-export { NewScheduleController }
+export { NewScheduleController };

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CountHaircutsService } from "../../services/haircut/CountHaircutService";
+import { CountHaircutsService } from "../../services/Haircut/CountHaircutService";
 
 class CountHaircutsController {
   async handle(request: Request, response: Response, next: unknown) {

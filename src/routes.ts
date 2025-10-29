@@ -5,25 +5,25 @@ import { Router } from "express"; // Não precisamos mais do RequestHandler aqui
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 
 // --- Usuários (User) ---
-import { CreateUserController } from "./controllers/user/CreateUserController";
-import { AuthUserController } from "./controllers/user/AuthUserController";
-import { DetailUserController } from "./controllers/user/DetailUserController";
+import { CreateUserController } from "./controllers/User/CreateUserController";
+import { AuthUserController } from "./controllers/User/AuthUserController";
+import { DetailUserController } from "./controllers/User/DetailUserController";
 
 // --- Cortes de Cabelo (Haircut) ---
-import { CreateHaircutController } from "./controllers/haircut/CreateHaircutController";
-import { ListHaircutController } from "./controllers/haircut/ListHaircutController";
-import { UpdateHaircutController } from "./controllers/haircut/UpdateHaircutController";
-import { CheckSubscriptionController } from "./controllers/haircut/CkeckSubscriptionControlle";
-import { CountHaircutsController } from "./controllers/haircut/CountHaircutsController";
-import { DetailHaircutController } from "./controllers/haircut/DetailHaircutController";
+import { CreateHaircutController } from "./controllers/Haircut/CreateHaircutController";
+import { ListHaircutController } from "./controllers/Haircut/ListHaircutController";
+import { UpdateHaircutController } from "./controllers/Haircut/UpdateHaircutController";
+import { CheckSubscriptionController } from "./controllers/Haircut/CkeckSubscriptionControlle";
+import { CountHaircutsController } from "./controllers/Haircut/CountHaircutsController";
+import { DetailHaircutController } from "./controllers/Haircut/DetailHaircutController";
 
 // --- Serviços/Agendamentos (Service/Schedule) ---
-import { NewScheduleController } from "./controllers/schedule/NewScheduleController";
-import { ListScheduleController } from "./controllers/schedule/ListScheduleController";
-import { FinishScheduleController } from "./controllers/schedule/FinishScheduleController";
+import { NewScheduleController } from "./controllers/Schedule/NewScheduleController";
+import { ListScheduleController } from "./controllers/Schedule/ListScheduleController";
+import { FinishScheduleController } from "./controllers/Schedule/FinishScheduleController";
 
 // --- Outros ---
-import { UpdateUserController } from "./controllers/user/UpdateUserController";
+import { UpdateUserController } from "./controllers/User/UpdateUserController";
 
 const router = Router();
 

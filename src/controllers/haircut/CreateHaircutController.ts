@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CreateHaircutService } from "../../services/haircut/CreateHaircutService";
+import { CreateHaircutService } from "../../services/Haircut/CreateHaircutService";
 
 export class CreateHaircutController {
   async handle(request: Request, response: Response) {
