@@ -15,9 +15,9 @@ export class CreateHaircutController {
         user_id,
       });
 
-      return response.json(haircut);
+      response.json(haircut);
     } catch (err) {
-      return response.status(400).json({ error: err.message });
+      response.status(400).json({ error: err.message });
     }
   }
 }

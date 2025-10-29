@@ -12,6 +12,6 @@ export class DetailHaircutController {
       haircut_id,
     });
 
-    return response.json(haircut);
+    response.json(haircut);
   }
 }

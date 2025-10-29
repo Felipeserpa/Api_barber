@@ -10,8 +10,7 @@ class ListHaircutController {
     const listHaircutService = new ListHaircutService();
 
     const haircuts = await listHaircutService.execute({ user_id, status });
-
-    return response.json(haircuts);
+    response.json(haircuts);
   }
 }
 

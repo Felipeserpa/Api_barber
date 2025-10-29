@@ -16,6 +16,6 @@ export class UpdateHaircutController {
       status,
     });
 
-    return response.json(haircut);
+    response.json(haircut);
   }
 }

@@ -9,7 +9,7 @@ class CountHaircutsController {
 
     const count = await countHaircutsService.execute({ user_id });
 
-    return response.json(count);
+    response.json(count);
   }
 }
 

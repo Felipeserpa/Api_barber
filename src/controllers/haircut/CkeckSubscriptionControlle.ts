@@ -6,6 +6,6 @@ export class CheckSubscriptionController {
     const user_id = request.user_id;
     const checkSubscriptionService = new CheckSubscriptionService();
     const status = await checkSubscriptionService.execute({ user_id });
-    return response.json(status);
+    response.json(status);
   }
 }
