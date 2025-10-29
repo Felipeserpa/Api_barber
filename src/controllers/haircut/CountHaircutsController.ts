@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { CountHaircutsService } from "../../services/haircut/CountHaircutService";
 
 class CountHaircutsController {
-  async handle(request: Request, response: Response) {
+  async handle(request: Request, response: Response, next: unknown) {
     const user_id = request.user_id;
 
     const countHaircutsService = new CountHaircutsService();

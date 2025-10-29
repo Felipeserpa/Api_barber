@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 
 // Controllers Usuário
 import { CreateUserController } from "./controllers/user/CreateUserController";
@@ -23,34 +23,41 @@ import { isAuthenticated } from "./middlewares/isAuthenticated";
 
 const router = Router();
 
+// 🔧 Função para ignorar o tipo de retorno do controller
+const wrap =
+  (controller: any) =>
+  (req: Request, res: Response, next: NextFunction): void => {
+    Promise.resolve(controller.handle(req, res, next)).catch(next);
+  };
+
 // --- USERS ---
-router.post("/users", new CreateUserController().handle);
-router.post("/session", new AuthUserController().handle);
-router.get("/me", isAuthenticated, new DetailUserController().handle);
-router.put("/users", isAuthenticated, new UpdateUserController().handle);
+router.post("/users", wrap(new CreateUserController()));
+router.post("/session", wrap(new AuthUserController()));
+router.get("/me", isAuthenticated, wrap(new DetailUserController()));
+router.put("/users", isAuthenticated, wrap(new UpdateUserController()));
 
 // --- HAIRCUTS ---
-router.post("/haircut", isAuthenticated, new CreateHaircutController().handle);
-router.get("/haircuts", isAuthenticated, new ListHaircutController().handle);
-router.put("/haircut", isAuthenticated, new UpdateHaircutController().handle);
+router.post("/haircut", isAuthenticated, wrap(new CreateHaircutController()));
+router.get("/haircuts", isAuthenticated, wrap(new ListHaircutController()));
+router.put("/haircut", isAuthenticated, wrap(new UpdateHaircutController()));
 router.get(
   "/haircuts/count",
   isAuthenticated,
-  new CountHaircutsController().handle
+  wrap(new CountHaircutsController())
 );
 router.get(
   "/haircut/detail",
   isAuthenticated,
-  new DetailHaircutController().handle
+  wrap(new DetailHaircutController())
 );
 
 // --- SCHEDULES ---
-router.post("/schedule", isAuthenticated, new NewScheduleController().handle);
-router.get("/schedule", isAuthenticated, new ListScheduleController().handle);
+router.post("/schedule", isAuthenticated, wrap(new NewScheduleController()));
+router.get("/schedule", isAuthenticated, wrap(new ListScheduleController()));
 router.delete(
   "/schedule",
   isAuthenticated,
-  new FinishScheduleController().handle
+  wrap(new FinishScheduleController())
 );
 
 export { router };
