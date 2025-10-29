@@ -2,28 +2,29 @@ import { Router } from "express"; // Não precisamos mais do RequestHandler aqui
 
 // --- Middlewares ---
 // Presumo que 'AuthMiddleware' é o seu middleware de autenticação
-import { isAuthenticated } from "./middlewares/isAuthenticated";
+import { isAuthenticated } from "./Middlewares/isAuthenticated";
 
 // --- Usuários (User) ---
-import { CreateUserController } from "./controllers/User/CreateUserController";
-import { AuthUserController } from "./controllers/User/AuthUserController";
-import { DetailUserController } from "./controllers/User/DetailUserController";
+import { CreateUserController } from "./Controllers/User/CreateUserController";
+import { AuthUserController } from "./Controllers/User/AuthUserController";
+import { DetailUserController } from "./Controllers/User/DetailUserController";
 
 // --- Cortes de Cabelo (Haircut) ---
-import { CreateHaircutController } from "./controllers/Haircut/CreateHaircutController";
-import { ListHaircutController } from "./controllers/Haircut/ListHaircutController";
-import { UpdateHaircutController } from "./controllers/Haircut/UpdateHaircutController";
-import { CheckSubscriptionController } from "./controllers/Haircut/CkeckSubscriptionControlle";
-import { CountHaircutsController } from "./controllers/Haircut/CountHaircutsController";
-import { DetailHaircutController } from "./controllers/Haircut/DetailHaircutController";
+import { CreateHaircutController } from "./Controllers/Haircut/CreateHaircutController";
+import { ListHaircutController } from "./Controllers/Haircut/ListHaircutController";
+import { UpdateHaircutController } from "./Controllers/Haircut/UpdateHaircutController";
+import { CheckSubscriptionController } from "./controllers/Haircut/CkeckSubscriptionController";
+
+import { CountHaircutsController } from "./Controllers/Haircut/CountHaircutsController";
+import { DetailHaircutController } from "./Controllers/Haircut/DetailHaircutController";
 
 // --- Serviços/Agendamentos (Service/Schedule) ---
-import { NewScheduleController } from "./controllers/Schedule/NewScheduleController";
-import { ListScheduleController } from "./controllers/Schedule/ListScheduleController";
-import { FinishScheduleController } from "./controllers/Schedule/FinishScheduleController";
+import { NewScheduleController } from "./Controllers/Schedule/NewScheduleController";
+import { ListScheduleController } from "./Controllers/Schedule/ListScheduleController";
+import { FinishScheduleController } from "./Controllers/Schedule/FinishScheduleController";
 
 // --- Outros ---
-import { UpdateUserController } from "./controllers/User/UpdateUserController";
+import { UpdateUserController } from "./Controllers/User/UpdateUserController";
 
 const router = Router();
 
