@@ -2,7 +2,7 @@ import { Router } from "express"; // Não precisamos mais do RequestHandler aqui
 
 // --- Middlewares ---
 // Presumo que 'AuthMiddleware' é o seu middleware de autenticação
-import { AuthMiddleware } from "./middlewares/AuthMiddleware";
+import { isAuthenticated } from "./middlewares/isAuthenticated";
 
 // --- Usuários (User) ---
 import { CreateUserController } from "./controllers/user/CreateUserController";
@@ -30,39 +30,43 @@ const router = Router();
 // --- Rotas de Usuário ---
 router.post("/users", new CreateUserController().handle);
 router.post("/session", new AuthUserController().handle);
-router.get("/detail", AuthMiddleware, new DetailUserController().handle);
-router.put("/users", AuthMiddleware, new UpdateUserController().handle);
+router.get("/detail", isAuthenticated, new DetailUserController().handle);
+router.put("/users", isAuthenticated, new UpdateUserController().handle);
 
 // --- Rotas de Corte de Cabelo (Haircut) ---
-router.post("/haircut", AuthMiddleware, new CreateHaircutController().handle);
-router.get("/haircuts", AuthMiddleware, new ListHaircutController().handle);
+router.post("/haircut", isAuthenticated, new CreateHaircutController().handle);
+router.get("/haircuts", isAuthenticated, new ListHaircutController().handle);
 router.put(
   "/haircut",
-  AuthMiddleware,
+  isAuthenticated,
   new UpdateHaircutController().handle // ERRO TS2769: CORRIGIDO AO USAR EXPRESS-ASYNC-ERRORS E REMOVER AS REQUESTHANDLER
 );
 router.get(
   "/haircut/check",
-  AuthMiddleware,
+  isAuthenticated,
   new CheckSubscriptionController().handle
 );
 router.get(
   "/haircut/detail",
-  AuthMiddleware,
+  isAuthenticated,
   new CountHaircutsController().handle
 );
-router.delete("/haircut", AuthMiddleware, new DetailHaircutController().handle);
+router.delete(
+  "/haircut",
+  isAuthenticated,
+  new DetailHaircutController().handle
+);
 
 // --- Rotas de Serviço/Agendamento (Schedule) ---
 router.post(
   "/schedule",
-  AuthMiddleware,
+  isAuthenticated,
   new NewScheduleController().handle // ERRO TS2769: CORRIGIDO AO USAR EXPRESS-ASYNC-ERRORS E REMOVER AS REQUESTHANDLER
 );
-router.get("/schedule", AuthMiddleware, new ListScheduleController().handle);
+router.get("/schedule", isAuthenticated, new ListScheduleController().handle);
 router.put(
   "/schedule/finish",
-  AuthMiddleware,
+  isAuthenticated,
   new FinishScheduleController().handle
 );
 
