@@ -1,7 +1,7 @@
 import { Router, Request, Response, NextFunction } from "express";
 
 // --- Middlewares ---
-import { isAuthenticated } from "./Middlewares/isAuthenticated";
+import { isAuthenticated } from "./middlewares/isAuthenticated";
 
 // --- Usuários (User) ---
 import { CreateUserController } from "./Controllers/User/CreateUserController";

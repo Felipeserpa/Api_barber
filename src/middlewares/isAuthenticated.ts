@@ -1,8 +1,18 @@
 import { Request, Response, NextFunction } from "express";
 import { verify } from "jsonwebtoken";
 
+// Interface do payload do JWT
 interface Payload {
   sub: string;
+}
+
+// Declaração global para adicionar user_id ao Request
+declare global {
+  namespace Express {
+    interface Request {
+      user_id: string; // agora obrigatório
+    }
+  }
 }
 
 export function isAuthenticated(
@@ -13,24 +23,24 @@ export function isAuthenticated(
   const authToken = request.headers.authorization;
 
   if (!authToken) {
-    // 🛑 CORREÇÃO 1: Remova o 'return' antes de response.status(401).end()
-    response.status(401).end();
-    return; // Adicione 'return' sozinho para sair da função
+    return response.status(401).json({ error: "Token não fornecido" });
   }
 
   const [, token] = authToken.split(" ");
 
   try {
+    // Garantir que o JWT_SECRET existe
+    if (!process.env.JWT_SECRET) {
+      throw new Error("JWT_SECRET não definido");
+    }
+
     const { sub } = verify(token, process.env.JWT_SECRET) as Payload;
 
-    // Você deve ter adicionado a tipagem 'user_id' ao Request para isso funcionar
-    // Ex: declare module 'express' { export interface Request { user_id: string; } }
+    // Adiciona user_id no Request
     request.user_id = sub;
 
-    return next(); // Mantenha o 'return' para chamar a próxima função
+    return next();
   } catch (err) {
-    // 🛑 CORREÇÃO 2: Remova o 'return' antes de response.status(401).end()
-    response.status(401).end();
-    return; // Adicione 'return' sozinho para sair da função
+    return response.status(401).json({ error: "Token inválido" });
   }
 }

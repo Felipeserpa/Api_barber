@@ -16,8 +16,12 @@ export class CreateHaircutController {
       });
 
       response.json(haircut);
-    } catch (err) {
-      response.status(400).json({ error: err.message });
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        response.status(400).json({ error: err.message });
+      } else {
+        response.status(400).json({ error: String(err) });
+      }
     }
   }
 }
