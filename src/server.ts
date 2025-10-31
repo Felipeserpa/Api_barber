@@ -5,23 +5,17 @@ import { router } from "./routes";
 
 const app = express();
 
-// Middlewares
 app.use(cors());
 app.use(express.json());
-
-// Rotas
 app.use(router);
 
-// Middleware de erro (compatível TS 5.7+)
-app.use((err: Error, req: Request, res: Response, next: NextFunction): void => {
-  if (err instanceof Error) {
-    res.status(400).json({ error: err.message });
-    return;
-  }
-
-  res.status(500).json({ status: "error", message: "Internal server error" });
+// Middleware de erro
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  console.error(err);
+  return res
+    .status(500)
+    .json({ status: "error", message: err.message || "Internal server error" });
 });
 
-// Porta dinâmica para Vercel
 const PORT = process.env.PORT || 3333;
-app.listen(PORT, () => console.log(`SERVER ONLINE na porta ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
